@@ -1,0 +1,2138 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <LINK rel="icon" type="Images/png"href="/assets/icon.jpg"></LINK>
+    <title>celothecham.che</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --brand-red: #8B1312;
+            --dark-black: #202121;
+            --off-white: #F9F8F9;
+            --neutral-gray: #5C5A5B;
+            --soft-pink: #D9ACAA;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--off-white);
+            color: var(--dark-black);
+            overflow-x: hidden;
+        }
+
+        /* Header - Super minimal like Telepati */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            padding: 18px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+        }
+
+        .menu-icon {
+            font-size: 24px;
+            cursor: pointer;
+            font-weight: 300;
+        }
+
+        .logo {
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            color: var(--brand-red);
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 20px;
+            font-size: 20px;
+        }
+
+        .shipping-icon {
+            position: relative;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        .shipping-modal {
+            position: fixed;
+            right: -400px;
+            top: 0;
+            width: 400px;
+            height: 100vh;
+            background-color: white;
+            transition: right 0.3s ease;
+            z-index: 250;
+            box-shadow: -2px 0 20px rgba(0,0,0,0.1);
+            padding: 80px 20px 20px;
+        }
+
+        .shipping-modal.active {
+            right: 0;
+        }
+
+        .shipping-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .shipping-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dark-black);
+        }
+
+        .shipping-close {
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--neutral-gray);
+        }
+
+        .shipping-content {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .shipping-message {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--brand-red);
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+
+        .icon {
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .icon:hover {
+            opacity: 0.6;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.6);
+            z-index: 300;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 450px;
+            padding: 40px;
+            position: relative;
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            cursor: pointer;
+            color: var(--neutral-gray);
+            background: none;
+            border: none;
+        }
+
+        .modal-title {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: var(--dark-black);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--dark-black);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: 'Poppins', sans-serif;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--brand-red);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-red);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #6d0f0e;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: #f0f0f0;
+            color: var(--dark-black);
+            margin-top: 10px;
+        }
+
+        .btn-secondary:hover {
+            background-color: #e0e0e0;
+        }
+
+        .modal-switch {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: var(--neutral-gray);
+        }
+
+        .modal-switch a {
+            color: var(--brand-red);
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .modal-switch a:hover {
+            text-decoration: underline;
+        }
+
+        /* Profile Section */
+        .profile-section {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 80px 20px;
+        }
+
+        .profile-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--brand-red) 0%, #A15B58 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: white;
+            font-weight: 700;
+            overflow: hidden;
+        }
+
+        .profile-avatar-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .profile-info h2 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: var(--dark-black);
+        }
+
+        .profile-info p {
+            color: var(--neutral-gray);
+            font-size: 14px;
+        }
+
+        .profile-details {
+            margin-bottom: 30px;
+        }
+
+        .profile-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .profile-item:last-child {
+            border-bottom: none;
+        }
+
+        .profile-label {
+            font-weight: 600;
+            color: var(--dark-black);
+        }
+
+        .profile-value {
+            color: var(--neutral-gray);
+        }
+
+        .auth-message {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .auth-message h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: var(--dark-black);
+        }
+
+        .auth-message p {
+            color: var(--neutral-gray);
+            margin-bottom: 25px;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: -280px;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background-color: white;
+            transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 200;
+            padding: 80px 40px;
+        }
+
+        .sidebar.active {
+            left: 0;
+            box-shadow: 2px 0 20px rgba(0,0,0,0.1);
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.4);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 150;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-menu li {
+            margin-bottom: 30px;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--dark-black);
+            font-size: 20px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-menu a:hover {
+            color: var(--brand-red);
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 60px;
+            min-height: 40vh;
+            background: linear-gradient(135deg, var(--brand-red) 0%, #A15B58 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .hero-content h1 {
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 10px;
+        }
+
+        .hero-content p {
+            font-size: 12px;
+            font-weight: 300;
+            opacity: 0.9;
+            letter-spacing: 1px;
+        }
+
+        /* Section Container */
+        .container {
+            max-width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: 400;
+            padding: 20px;
+            margin: 0;
+            color: var(--brand-red);
+            background-color: white;
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+
+        /* Product Grid - Image Grid Style like Telepati.che Mobile */
+        .main-image {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .main-image-1 {
+            aspect-ratio: 1024 / 1146;
+            background-size: cover;
+            background-position: center;
+            background-color: #f5f5f5;
+        }
+
+        .main-image-2 {
+            aspect-ratio: 1024 / 387;
+            background-size: cover;
+            background-position: center;
+            background-color: #e8e8e8;
+        }
+
+.main-image-3 {
+    position: relative;
+    width: 100%;
+    height: 450px;
+    overflow: hidden;
+    background: #d8d8d8;
+}
+
+.main-image-3 video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0;
+            margin-bottom: 0;
+        }
+
+        .product-item {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            aspect-ratio: 1;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+        }
+
+        .product-image.white {
+            background-color: #f5f5f5;
+        }
+
+        .product-image.black {
+            background-color: #2a2a2a;
+        }
+
+        /* Model Grid - Full Image Grid */
+        .model-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0;
+        }
+
+        .model-photo {
+            width: 100%;
+            aspect-ratio: 3/4;
+            background-size: cover;
+            background-position: center;
+            background-color: #e0e0e0;
+        }
+
+        /* Payment Section - Dark Red */
+        .payment-section {
+            background-color: var(--brand-red);
+            padding: 40px 20px;
+            margin-top: 0;
+        }
+
+        .payment-container {
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        .payment-title {
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .payment-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 40px;
+        }
+
+        .payment-item {
+            background-color: white;
+            border-radius: 6px;
+            padding: 18px 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 11px;
+            color: var(--dark-black);
+            min-height: 50px;
+        }
+
+        /* Accordion */
+        .accordion {
+            max-width: 100%;
+            margin: 30px 0 0;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .accordion-header {
+            padding: 18px 20px;
+            cursor: pointer;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.2s;
+        }
+
+        .accordion-header:hover {
+            background-color: rgba(255,255,255,0.05);
+        }
+
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background-color: rgba(255,255,255,0.05);
+        }
+
+        .accordion-body.active {
+            max-height: 500px;
+        }
+
+        .accordion-content {
+            padding: 20px;
+            color: white;
+            line-height: 1.6;
+            font-size: 12px;
+        }
+
+        /* About Section */
+        .about-hero {
+            background: linear-gradient(135deg, var(--brand-red) 0%, #A15B58 100%);
+            padding: 100px 20px;
+            text-align: center;
+            color: white;
+            margin-top: 60px;
+        }
+
+        .about-hero h1 {
+            font-size: 52px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .about-hero p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        .about-content {
+            max-width: 900px;
+            margin: 80px auto;
+            padding: 0 20px;
+            line-height: 1.9;
+            font-size: 16px;
+            color: var(--neutral-gray);
+        }
+
+        .about-content p {
+            margin-bottom: 25px;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--brand-red);
+            color: white;
+            padding: 50px 20px 40px;
+            text-align: center;
+        }
+
+        .footer-brand {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 15px;
+            letter-spacing: -0.5px;
+        }
+
+        .footer-tagline {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+
+        .footer-contact {
+            margin: 40px 0;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        .footer-contact a {
+            display: flex;
+            align-items: center;
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 18px 30px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.08) 100%);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 15px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 600;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer-contact a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .footer-contact a:hover::before {
+            left: 100%;
+        }
+
+        .footer-contact a:hover {
+            background: linear-gradient(135deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.15) 100%);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 45px rgba(0,0,0,0.25);
+            border-color: rgba(255,255,255,0.5);
+        }
+
+        .footer-contact a span {
+            font-size: 22px;
+            margin-right: 12px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+
+        .footer-divider {
+            width: 80px;
+            height: 2px;
+            background-color: rgba(255,255,255,0.4);
+            margin: 30px auto;
+        }
+
+        .footer-credit {
+            font-size: 13px;
+            opacity: 0.85;
+            line-height: 1.8;
+        }
+
+        .footer-copyright {
+            margin-top: 30px;
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
+        /* Page System */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 28px;
+            }
+
+            .hero-content p {
+                font-size: 11px;
+            }
+
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .model-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .section-title {
+                font-size: 13px;
+                padding: 15px;
+            }
+
+            .payment-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+            }
+
+            .payment-item {
+                padding: 15px 8px;
+                font-size: 10px;
+                min-height: 45px;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .product-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .model-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        /* Product Frame Styles */
+        .product-frame {
+            margin: 20px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .product-frame h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--dark-black);
+            margin-bottom: 10px;
+        }
+
+        .product-price {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--brand-red);
+            margin-bottom: 15px;
+        }
+
+        .product-images {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .product-img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .add-to-cart-btn {
+            background-color: var(--brand-red);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .add-to-cart-btn:hover {
+            background-color: #6d0f0e;
+            transform: translateY(-2px);
+        }
+
+        /* Size Selection Styles */
+        .size-selection {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .size-selection label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--dark-black);
+        }
+
+        .size-select {
+            padding: 8px 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: 'Poppins', sans-serif;
+            background-color: white;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        .size-select:focus {
+            outline: none;
+            border-color: var(--brand-red);
+        }
+
+        /* Order History Styles */
+        .order-history {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .order-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .order-id {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--dark-black);
+        }
+
+        .order-status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .order-status.pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .order-status.processing {
+            background-color: #cce5ff;
+            color: #004085;
+        }
+
+        .order-status.shipped {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .order-status.delivered {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .order-details {
+            margin-bottom: 15px;
+        }
+
+        .order-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .order-item-img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        .order-item-info {
+            flex: 1;
+        }
+
+        .order-item-name {
+            font-weight: 600;
+            color: var(--dark-black);
+            margin-bottom: 3px;
+        }
+
+        .order-item-size {
+            font-size: 12px;
+            color: var(--neutral-gray);
+        }
+
+        .order-item-price {
+            color: var(--brand-red);
+            font-weight: 600;
+        }
+
+        .order-summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 2px solid #f0f0f0;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        /* Cart Icon */
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--brand-red);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        /* Cart Modal */
+        .cart-modal {
+            position: fixed;
+            right: -400px;
+            top: 0;
+            width: 350px;
+            height: 100vh;
+            background-color: white;
+            transition: right 0.3s ease;
+            z-index: 250;
+            box-shadow: -2px 0 20px rgba(0,0,0,0.1);
+            padding: 80px 20px 20px;
+        }
+
+        .cart-modal.active {
+            right: 0;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .cart-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dark-black);
+        }
+
+        .cart-close {
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--neutral-gray);
+        }
+
+        .cart-items {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-item-img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-weight: 600;
+            color: var(--dark-black);
+            margin-bottom: 5px;
+        }
+
+        .cart-item-price {
+            color: var(--brand-red);
+            font-weight: 600;
+        }
+
+        .cart-item-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quantity-btn {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #e0e0e0;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .quantity-btn:hover {
+            background-color: #f5f5f5;
+        }
+
+        .quantity {
+            min-width: 30px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .remove-btn {
+            color: #dc3545;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .cart-footer {
+            border-top: 2px solid #f0f0f0;
+            padding-top: 20px;
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--brand-red);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .checkout-btn:hover {
+            background-color: #6d0f0e;
+            transform: translateY(-2px);
+        }
+
+        .empty-cart {
+            text-align: center;
+            color: var(--neutral-gray);
+            padding: 40px 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="menu-icon" id="menuBtn">☰</div>
+        <div class="logo">celothecham.che</div>
+        <div class="header-icons">
+            <span class="cart-icon" id="cartBtn">🛒<span class="cart-count" id="cartCount">0</span></span>
+            <span class="shipping-icon" id="shippingBtn">🚚</span>
+            <span class="icon" id="accountBtn">👤</span>
+        </div>
+    </header>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <ul class="nav-menu">
+            <li><a href="#" data-page="home">Home</a></li>
+            <li><a href="#" data-page="shop">Shop</a></li>
+            <li><a href="#" data-page="about">About Us</a></li>
+            <li><a href="#" data-page="profile">Profile</a></li>
+        </ul>
+    </nav>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeLogin">×</button>
+            <h2 class="modal-title">Login</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-input" id="loginEmail" placeholder="Masukkan email" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input" id="loginPassword" placeholder="Masukkan password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+            <div class="modal-switch">
+                Belum punya akun? <a id="showRegister">Daftar di sini</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal" id="registerModal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeRegister">×</button>
+            <h2 class="modal-title">Buat Akun</h2>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label class="form-label">Nama Lengkap</label>
+                    <input type="text" class="form-input" id="registerName" placeholder="Masukkan nama lengkap" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-input" id="registerEmail" placeholder="Masukkan email" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input" id="registerPassword" placeholder="Minimal 6 karakter" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Daftar</button>
+            </form>
+            <div class="modal-switch">
+                Sudah punya akun? <a id="showLogin">Login di sini</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Profile Modal -->
+    <div class="modal" id="editProfileModal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeEditProfile">×</button>
+            <h2 class="modal-title">Edit Profile</h2>
+            <form id="editProfileForm">
+                <div class="form-group">
+                    <label class="form-label">Foto Profile</label>
+                    <input type="file" class="form-input" id="editPhoto" accept="image/*">
+                    <small style="color: var(--neutral-gray); font-size: 12px;">Pilih foto untuk mengubah foto profile</small>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Nama Lengkap</label>
+                    <input type="text" class="form-input" id="editName" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-input" id="editEmail" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Nomor Telepon</label>
+                    <input type="tel" class="form-input" id="editPhone" placeholder="08xxx">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Alamat</label>
+                    <input type="text" class="form-input" id="editAddress" placeholder="Alamat lengkap">
+                </div>
+                <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Cart Modal -->
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-header">
+            <h3 class="cart-title">Shopping Cart</h3>
+            <span class="cart-close" id="closeCart">×</span>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <div class="empty-cart">
+                <p>Your cart is empty</p>
+            </div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cartTotal">Rp 0</span>
+            </div>
+            <button class="checkout-btn" id="checkoutBtn">Checkout</button>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div class="modal" id="checkoutModal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeCheckout">×</button>
+            <h2 class="modal-title">Checkout</h2>
+            <form id="checkoutForm">
+                <div class="form-group">
+                    <label class="form-label">Payment Method</label>
+                    <select class="form-input" id="paymentMethod" required>
+                        <option value="">Select Payment Method</option>
+                        <option value="ovo">OVO</option>
+                        <option value="dana">DANA</option>
+                        <option value="shopeepay">ShopeePay</option>
+                        <option value="bca">BCA</option>
+                        <option value="mandiri">Mandiri</option>
+                        <option value="bni">BNI</option>
+                        <option value="bri">BRI</option>
+                        <option value="visa">VISA</option>
+                        <option value="mastercard">Mastercard</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Shipping Address</label>
+                    <textarea class="form-input" id="shippingAddress" rows="3" placeholder="Enter your shipping address" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Notes (Optional)</label>
+                    <textarea class="form-input" id="orderNotes" rows="2" placeholder="Any special instructions"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Place Order</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Shipping Modal -->
+    <div class="shipping-modal" id="shippingModal">
+        <div class="shipping-header">
+            <h3 class="shipping-title">Order History</h3>
+            <span class="shipping-close" id="closeShipping">×</span>
+        </div>
+        <div class="shipping-content" id="shippingContent">
+            <div class="shipping-message">
+                Pesanan Anda sedang dikirim. Cek resi menggunakan ID pesanan Anda.
+            </div>
+            <div id="orderHistoryContent">
+                <!-- Order history will be rendered here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- HOME PAGE -->
+    <div class="page active" id="homePage">
+        <!-- Hero -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1>celothecham.che</h1>
+                <p>WEST JAVA STREETWEAR SINCE 2021</p>
+            </div>
+        </section>
+
+        <!-- Main Images -->
+        <div class="main-image-1" style="background-image: url('assets/bg1.jpg')"></div>
+        <div class="main-image-2" style="background-image: url('assets/bg2.jpg')"></div>
+       
+<div class="main-image-3">
+  <video autoplay muted loop playsinline>
+      <source src="/assets/v1.mp4" type="video/mp4">
+  </video>
+</div>
+
+
+
+
+        <!-- Payment & Shipping -->
+        <section class="payment-section">
+            <div class="payment-container">
+                <h3 class="payment-title">Payment Methods</h3>
+                <div class="payment-grid">
+                    <div class="payment-item">OVO</div>
+                    <div class="payment-item">DANA</div>
+                    <div class="payment-item">ShopeePay</div>
+                    <div class="payment-item">BCA</div>
+                    <div class="payment-item">Mandiri</div>
+                    <div class="payment-item">BNI</div>
+                    <div class="payment-item">BRI</div>
+                    <div class="payment-item">VISA</div>
+                    <div class="payment-item">Mastercard</div>
+                </div>
+
+                <h3 class="payment-title">Shipping</h3>
+                <div class="payment-grid" style="grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));">
+                    <div class="payment-item">JNE</div>
+                    <div class="payment-item">GoSend</div>
+                </div>
+
+                <!-- Terms Accordion -->
+                <div class="accordion">
+                    <div class="accordion-header" id="accordionBtn">
+                        Terms & Conditions
+                        <span>▼</span>
+                    </div>
+                    <div class="accordion-body" id="accordionBody">
+                        <div class="accordion-content">
+                            <p>1. Semua produk yang dijual adalah original dari celothecham.che</p>
+                            <p>2. Pembayaran dapat dilakukan melalui metode yang tersedia di atas</p>
+                            <p>3. Pengiriman diproses maksimal 2x24 jam setelah pembayaran dikonfirmasi</p>
+                            <p>4. Pastikan alamat pengiriman sudah benar sebelum melakukan pemesanan</p>
+                            <p>5. Produk yang sudah dibeli tidak dapat dikembalikan kecuali cacat produksi</p>
+                            <p>6. Untuk pertanyaan lebih lanjut, hubungi customer service kami</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER - Only on Home Page -->
+        <footer class="footer" id="homeFooter">
+            <div class="footer-brand">celothecham.che</div>
+            <p class="footer-tagline">Brand from West Java since 2021</p>
+            <p class="footer-tagline">Simple brand identity & message</p>
+
+            <div class="footer-contact">
+                <a href="https://instagram.com/celothecham" target="_blank">
+                    Instagram @celothecham
+                </a>
+                <a href="https://wa.me/6282133277527" target="_blank">
+                    WhatsApp 082133277527
+                </a>
+            </div>
+
+            <div class="footer-divider"></div>
+            <div class="footer-credit">
+                Muhammad Ircham Rizky<br>
+                NIM: 062302096<br>
+                Prodi: Bisnis Digital - Semester 5
+            </div>
+            <p class="footer-copyright">© 2024 celothecham.che. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- SHOP PAGE -->
+    <div class="page" id="shopPage">
+        <section class="hero" style="min-height: 50vh;">
+            <div class="hero-content">
+                <h1>Shop</h1>
+                <p>ALL PRODUCTS</p>
+            </div>
+        </section>
+
+        <div class="product-frame">
+            <h3>Celothecham - Jersey Boxy Wafe White Unisex Premium</h3>
+            <div class="product-price">Rp 150.000</div>
+            <div class="product-images">
+                <img src="assets/Baju1.jpeg" alt="Baju1" class="product-img">
+                <img src="assets/Baju1.1.jpeg" alt="Baju1.1" class="product-img">
+                <img src="assets/SizeBaju.jpeg" alt="SizeBaju" class="product-img">
+            </div>
+            <div class="size-selection">
+                <label for="size1">Size:</label>
+                <select id="size1" class="size-select">
+                    <option value="">Select Size</option>
+                    <option value="S">S</option>
+                    <option value="M">M</option>
+                    <option value="L">L</option>
+                    <option value="XL">XL</option>
+                    <option value="XXL">XXL</option>
+                </select>
+            </div>
+            <button class="add-to-cart-btn" data-product="Celothecham - Jersey Boxy Wafe White Unisex Premium" data-price="150000" data-size-id="size1">Add to Cart</button>
+        </div>
+
+        <div class="product-frame">
+            <h3>Celothecham - T - Shirt Boxy Daze Katun Combed Unisex</h3>
+            <div class="product-price">Rp 200.000</div>
+            <div class="product-images">
+                <img src="assets/Baju2.jpeg" alt="Baju2" class="product-img">
+                <img src="assets/SizeBaju.jpeg" alt="SizeBaju" class="product-img">
+            </div>
+            <div class="size-selection">
+                <label for="size2">Size:</label>
+                <select id="size2" class="size-select">
+                    <option value="">Select Size</option>
+                    <option value="S">S</option>
+                    <option value="M">M</option>
+                    <option value="L">L</option>
+                    <option value="XL">XL</option>
+                    <option value="XXL">XXL</option>
+                </select>
+            </div>
+            <button class="add-to-cart-btn" data-product="Celothecham - T - Shirt Boxy Daze Katun Combed Unisex" data-price="200000" data-size-id="size2">Add to Cart</button>
+        </div>
+
+        <div class="product-frame">
+            <h3>Celothecham - T - Shirt Boxy Mazzy</h3>
+            <div class="product-price">Rp 250.000</div>
+            <div class="product-images">
+                <img src="assets/Baju3.jpeg" alt="Baju3" class="product-img">
+                <img src="assets/SizeBaju.jpeg" alt="SizeBaju" class="product-img">
+            </div>
+            <div class="size-selection">
+                <label for="size3">Size:</label>
+                <select id="size3" class="size-select">
+                    <option value="">Select Size</option>
+                    <option value="S">S</option>
+                    <option value="M">M</option>
+                    <option value="L">L</option>
+                    <option value="XL">XL</option>
+                    <option value="XXL">XXL</option>
+                </select>
+            </div>
+            <button class="add-to-cart-btn" data-product="Celothecham - T - Shirt Boxy Mazzy" data-price="250000" data-size-id="size3">Add to Cart</button>
+        </div>
+    </div>
+
+    <!-- ABOUT PAGE -->
+    <div class="page" id="aboutPage">
+        <section class="about-hero">
+            <h1>celothecham.che</h1>
+            <p>Brand from West Java since 2021</p>
+        </section>
+        <div class="about-content">
+            <p>celothecham.che adalah brand streetwear lokal yang lahir dari West Java pada tahun 2021. Kami percaya bahwa fashion adalah bentuk ekspresi diri yang paling jujur dan autentik.</p>
+            
+            <p>Dengan desain yang minimalis namun kuat, kami menciptakan pakaian yang tidak hanya nyaman dipakai, tetapi juga merepresentasikan identitas dan karakter pemakainya. Setiap produk dirancang dengan perhatian detail dan menggunakan bahan berkualitas terbaik.</p>
+            
+            <p>Kami memahami bahwa streetwear bukan hanya tentang fashion, tetapi tentang lifestyle dan komunitas. celothecham.che hadir untuk menemani aktivitas sehari-hari kamu dengan style yang autentik dan penuh percaya diri.</p>
+            
+            <p style="font-weight: 600; color: var(--brand-red); margin-top: 40px;">Thank you for supporting local brand.</p>
+        </div>
+    </div>
+
+    <!-- PROFILE PAGE -->
+    <div class="page" id="profilePage">
+        <section class="hero" style="min-height: 50vh;">
+            <div class="hero-content">
+                <h1>Profile</h1>
+                <p>MANAGE YOUR ACCOUNT</p>
+            </div>
+        </section>
+
+        <div class="profile-section" id="profileContent">
+            <!-- Profile content will be rendered here -->
+        </div>
+    </div>
+
+
+
+    <script>
+        // LocalStorage Keys
+        const STORAGE_KEY = 'celothecham_user';
+        
+        // Current User State
+        let currentUser = null;
+
+        // Load user from localStorage
+        function loadUser() {
+            const userData = localStorage.getItem(STORAGE_KEY);
+            if (userData) {
+                currentUser = JSON.parse(userData);
+            }
+        }
+
+        // Save user to localStorage
+        function saveUser(user) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
+            currentUser = user;
+        }
+
+        // Logout
+        function logout() {
+            localStorage.removeItem(STORAGE_KEY);
+            currentUser = null;
+            renderProfile();
+        }
+
+        // Products Data
+        const whiteProducts = [
+            { name: 'CC White Essential Tee', price: 'Rp 150.000' },
+            { name: 'CC White Classic', price: 'Rp 150.000' },
+            { name: 'CC White Vintage', price: 'Rp 150.000' },
+            { name: 'CC White Basic', price: 'Rp 150.000' },
+            { name: 'CC White Premium', price: 'Rp 150.000' },
+            { name: 'CC White Signature', price: 'Rp 150.000' }
+        ];
+
+        const blackProducts = [
+            { name: 'CC Black Essential Tee', price: 'Rp 150.000' },
+            { name: 'CC Black Classic', price: 'Rp 150.000' },
+            { name: 'CC Navy Tee', price: 'Rp 150.000' },
+            { name: 'CC Black Premium', price: 'Rp 150.000' },
+            { name: 'CC Navy Hoodie', price: 'Rp 250.000' },
+            { name: 'CC Black Hoodie', price: 'Rp 250.000' }
+        ];
+
+        // Modal Controls
+        const loginModal = document.getElementById('loginModal');
+        const registerModal = document.getElementById('registerModal');
+        const editProfileModal = document.getElementById('editProfileModal');
+        const accountBtn = document.getElementById('accountBtn');
+
+        // Open Login/Register or Profile
+        accountBtn.addEventListener('click', () => {
+            if (currentUser) {
+                // Go to profile page
+                pages.forEach(page => page.classList.remove('active'));
+                document.getElementById('profilePage').classList.add('active');
+                renderProfile();
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+            } else {
+                loginModal.classList.add('active');
+            }
+        });
+
+        // Close Modals
+        document.getElementById('closeLogin').addEventListener('click', () => {
+            loginModal.classList.remove('active');
+        });
+
+        document.getElementById('closeRegister').addEventListener('click', () => {
+            registerModal.classList.remove('active');
+        });
+
+        document.getElementById('closeEditProfile').addEventListener('click', () => {
+            editProfileModal.classList.remove('active');
+        });
+
+        // Switch between Login and Register
+        document.getElementById('showRegister').addEventListener('click', () => {
+            loginModal.classList.remove('active');
+            registerModal.classList.add('active');
+        });
+
+        document.getElementById('showLogin').addEventListener('click', () => {
+            registerModal.classList.remove('active');
+            loginModal.classList.add('active');
+        });
+
+        // Close modal when clicking outside
+        [loginModal, registerModal, editProfileModal].forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                }
+            });
+        });
+
+        // Register Form
+        document.getElementById('registerForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+
+            const user = {
+                name: name,
+                email: email,
+                password: password,
+                phone: '',
+                address: '',
+                joinDate: new Date().toLocaleDateString('id-ID')
+            };
+
+            saveUser(user);
+            registerModal.classList.remove('active');
+            alert('Akun berhasil dibuat! Selamat datang ' + name);
+            
+            // Reset form
+            document.getElementById('registerForm').reset();
+        });
+
+        // Login Form
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            // Check if user exists
+            const userData = localStorage.getItem(STORAGE_KEY);
+            if (userData) {
+                const user = JSON.parse(userData);
+                if (user.email === email && user.password === password) {
+                    currentUser = user;
+                    loginModal.classList.remove('active');
+                    alert('Login berhasil! Selamat datang kembali ' + user.name);
+                    document.getElementById('loginForm').reset();
+                } else {
+                    alert('Email atau password salah!');
+                }
+            } else {
+                alert('Akun tidak ditemukan. Silakan daftar terlebih dahulu.');
+            }
+        });
+
+        // Edit Profile Form
+        document.getElementById('editProfileForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            if (!currentUser) return;
+
+            const photoInput = document.getElementById('editPhoto');
+            const photoFile = photoInput.files[0];
+
+            if (photoFile) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    currentUser.photo = e.target.result;
+                    currentUser.name = document.getElementById('editName').value;
+                    currentUser.email = document.getElementById('editEmail').value;
+                    currentUser.phone = document.getElementById('editPhone').value;
+                    currentUser.address = document.getElementById('editAddress').value;
+
+                    saveUser(currentUser);
+                    editProfileModal.classList.remove('active');
+                    renderProfile();
+                    alert('Profile berhasil diperbarui!');
+                };
+                reader.readAsDataURL(photoFile);
+            } else {
+                currentUser.name = document.getElementById('editName').value;
+                currentUser.email = document.getElementById('editEmail').value;
+                currentUser.phone = document.getElementById('editPhone').value;
+                currentUser.address = document.getElementById('editAddress').value;
+
+                saveUser(currentUser);
+                editProfileModal.classList.remove('active');
+                renderProfile();
+                alert('Profile berhasil diperbarui!');
+            }
+        });
+
+        // Render Profile Page
+        function renderProfile() {
+            const profileContent = document.getElementById('profileContent');
+
+            if (!currentUser) {
+                profileContent.innerHTML = `
+                    <div class="auth-message">
+                        <h3>Belum Login</h3>
+                        <p>Silakan login atau daftar untuk melihat profile</p>
+                        <button class="btn btn-primary" style="max-width: 300px; margin: 0 auto;" onclick="loginModal.classList.add('active')">Login / Daftar</button>
+                    </div>
+                `;
+                return;
+            }
+
+            const avatarHTML = currentUser.photo ?
+                `<img src="${currentUser.photo}" alt="Profile Photo" class="profile-avatar-img">` :
+                '';
+
+            profileContent.innerHTML = `
+                <div class="profile-card">
+                    <div class="profile-header">
+                        <div class="profile-avatar">${avatarHTML}</div>
+                        <div class="profile-info">
+                            <h2>${currentUser.name}</h2>
+                            <p>Member sejak ${currentUser.joinDate}</p>
+                        </div>
+                    </div>
+
+                    <div class="profile-details">
+                        <div class="profile-item">
+                            <span class="profile-label">Email</span>
+                            <span class="profile-value">${currentUser.email}</span>
+                        </div>
+                        <div class="profile-item">
+                            <span class="profile-label">Nomor Telepon</span>
+                            <span class="profile-value">${currentUser.phone || 'Belum diisi'}</span>
+                        </div>
+                        <div class="profile-item">
+                            <span class="profile-label">Alamat</span>
+                            <span class="profile-value">${currentUser.address || 'Belum diisi'}</span>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="openEditProfile()">Edit Profile</button>
+                    <button class="btn btn-secondary" onclick="logout(); pages.forEach(p => p.classList.remove('active')); document.getElementById('homePage').classList.add('active');">Logout</button>
+                </div>
+            `;
+        }
+
+        // Open Edit Profile Modal
+        function openEditProfile() {
+            if (!currentUser) return;
+            
+            document.getElementById('editName').value = currentUser.name;
+            document.getElementById('editEmail').value = currentUser.email;
+            document.getElementById('editPhone').value = currentUser.phone || '';
+            document.getElementById('editAddress').value = currentUser.address || '';
+            
+            editProfileModal.classList.add('active');
+        }
+
+        // Render Products - Image Grid Style
+        function renderProducts(products, containerId, colorClass) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            container.innerHTML = products.map((product, index) => `
+                <div class="product-item">
+                    <div class="product-image ${colorClass}" style="background-image: url('https://via.placeholder.com/400x400/${colorClass === 'white' ? 'f5f5f5' : '2a2a2a'}/666?text=${encodeURIComponent(product.name)}')"></div>
+                </div>
+            `).join('');
+        }
+
+        // Render Models - Image Grid
+        function renderModels() {
+            const container = document.getElementById('modelGrid');
+            if (!container) return;
+            const models = Array(9).fill(0).map((_, i) => `Model ${i + 1}`);
+            container.innerHTML = models.map((model, index) => `
+                <div class="model-photo" style="background-image: url('https://via.placeholder.com/400x533/e0e0e0/666?text=${encodeURIComponent(model)}')"></div>
+            `).join('');
+        }
+
+        // Render All Products for Shop
+        function renderShop() {
+            const allProducts = [...whiteProducts, ...blackProducts];
+            const container = document.getElementById('shopGrid');
+            if (!container) return;
+            container.innerHTML = allProducts.map((product, index) => {
+                const colorClass = index < 6 ? 'white' : 'black';
+                return `
+                    <div class="product-item">
+                        <div class="product-image ${colorClass}" style="background-image: url('https://via.placeholder.com/400x400/${colorClass === 'white' ? 'f5f5f5' : '2a2a2a'}/666?text=${encodeURIComponent(product.name)}')"></div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Menu Toggle
+        const menuBtn = document.getElementById('menuBtn');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+
+        menuBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        });
+
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+        });
+
+        // Navigation
+        const pages = document.querySelectorAll('.page');
+        const navLinks = document.querySelectorAll('.nav-menu a');
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetPage = link.getAttribute('data-page');
+                
+                pages.forEach(page => page.classList.remove('active'));
+                document.getElementById(targetPage + 'Page').classList.add('active');
+                
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+                window.scrollTo(0, 0);
+            });
+        });
+
+        // Accordion
+        const accordionBtn = document.getElementById('accordionBtn');
+        const accordionBody = document.getElementById('accordionBody');
+
+        accordionBtn.addEventListener('click', () => {
+            accordionBody.classList.toggle('active');
+        });
+
+        // Cart Management
+        let cart = JSON.parse(localStorage.getItem('celothecham_cart') || '[]');
+
+        // Update cart count display
+        function updateCartCount() {
+            const count = cart.reduce((total, item) => total + item.quantity, 0);
+            document.getElementById('cartCount').textContent = count;
+        }
+
+        // Add to cart
+        function addToCart(productName, price, size) {
+            const existingItem = cart.find(item => item.name === productName && item.size === size);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    name: productName,
+                    price: parseInt(price),
+                    quantity: 1,
+                    size: size,
+                    image: `assets/${productName.replace(/ /g, '').replace('CC', 'Baju').replace('Essential', '1').replace('Classic', '2').replace('Premium', '3')}.jpeg`
+                });
+            }
+            saveCart();
+            updateCartCount();
+            alert(`${productName} (Size: ${size}) added to cart!`);
+        }
+
+        // Save cart to localStorage
+        function saveCart() {
+            localStorage.setItem('celothecham_cart', JSON.stringify(cart));
+        }
+
+        // Remove from cart
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            saveCart();
+            updateCartCount();
+            renderCart();
+        }
+
+        // Update quantity
+        function updateQuantity(index, newQuantity) {
+            if (newQuantity <= 0) {
+                removeFromCart(index);
+                return;
+            }
+            cart[index].quantity = newQuantity;
+            saveCart();
+            updateCartCount();
+            renderCart();
+        }
+
+        // Calculate total
+        function calculateTotal() {
+            return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+        }
+
+        // Render cart
+        function renderCart() {
+            const cartItems = document.getElementById('cartItems');
+            const cartTotal = document.getElementById('cartTotal');
+
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<div class="empty-cart"><p>Your cart is empty</p></div>';
+                cartTotal.textContent = 'Rp 0';
+                return;
+            }
+
+            cartItems.innerHTML = cart.map((item, index) => `
+                <div class="cart-item">
+                    <img src="${item.image}" alt="${item.name}" class="cart-item-img">
+                    <div class="cart-item-info">
+                        <div class="cart-item-name">${item.name}</div>
+                        <div class="cart-item-size">Size: ${item.size}</div>
+                        <div class="cart-item-price">Rp ${item.price.toLocaleString()}</div>
+                    </div>
+                    <div class="cart-item-controls">
+                        <button class="quantity-btn" onclick="updateQuantity(${index}, ${item.quantity - 1})">-</button>
+                        <span class="quantity">${item.quantity}</span>
+                        <button class="quantity-btn" onclick="updateQuantity(${index}, ${item.quantity + 1})">+</button>
+                        <span class="remove-btn" onclick="removeFromCart(${index})">×</span>
+                    </div>
+                </div>
+            `).join('');
+
+            cartTotal.textContent = `Rp ${calculateTotal().toLocaleString()}`;
+        }
+
+        // Cart modal controls
+        const cartModal = document.getElementById('cartModal');
+        const cartBtn = document.getElementById('cartBtn');
+        const closeCart = document.getElementById('closeCart');
+        const checkoutBtn = document.getElementById('checkoutBtn');
+        const checkoutModal = document.getElementById('checkoutModal');
+        const closeCheckout = document.getElementById('closeCheckout');
+
+        cartBtn.addEventListener('click', () => {
+            renderCart();
+            cartModal.classList.add('active');
+        });
+
+        closeCart.addEventListener('click', () => {
+            cartModal.classList.remove('active');
+        });
+
+        checkoutBtn.addEventListener('click', () => {
+            if (cart.length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+            cartModal.classList.remove('active');
+            checkoutModal.classList.add('active');
+        });
+
+        closeCheckout.addEventListener('click', () => {
+            checkoutModal.classList.remove('active');
+        });
+
+        // Add to cart button event listeners
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('add-to-cart-btn')) {
+                const productName = e.target.dataset.product;
+                const price = e.target.dataset.price;
+                const sizeId = e.target.dataset.sizeId;
+                const sizeSelect = document.getElementById(sizeId);
+                const selectedSize = sizeSelect ? sizeSelect.value : '';
+
+                if (!selectedSize) {
+                    alert('Please select a size before adding to cart!');
+                    return;
+                }
+
+                addToCart(productName, price, selectedSize);
+            }
+        });
+
+        // Checkout form
+        document.getElementById('checkoutForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            if (!currentUser) {
+                alert('Please login first to place an order!');
+                checkoutModal.classList.remove('active');
+                loginModal.classList.add('active');
+                return;
+            }
+
+            const paymentMethod = document.getElementById('paymentMethod').value;
+            const shippingAddress = document.getElementById('shippingAddress').value;
+            const orderNotes = document.getElementById('orderNotes').value;
+
+            // Create order summary
+            const order = {
+                id: Date.now(),
+                user: currentUser.email,
+                items: cart,
+                total: calculateTotal(),
+                paymentMethod: paymentMethod,
+                shippingAddress: shippingAddress,
+                notes: orderNotes,
+                status: 'shipped',
+                date: new Date().toISOString()
+            };
+
+            // Save order (in a real app, this would go to a server)
+            const orders = JSON.parse(localStorage.getItem('celothecham_orders') || '[]');
+            orders.push(order);
+            localStorage.setItem('celothecham_orders', JSON.stringify(orders));
+
+            // Clear cart
+            cart = [];
+            saveCart();
+            updateCartCount();
+
+            // Close modals
+            checkoutModal.classList.remove('active');
+
+            // Show success message
+            alert(`Pembayaran berhasil! Order ID: ${order.id}\nTotal: Rp ${order.total.toLocaleString()}\nMetode Pembayaran: ${paymentMethod}\n\nBarang sedang dikirim ke alamat Anda menggunakan JNE/GoSend.\nCek resi di sini menggunakan ID ${order.id}`);
+
+            // Reset form
+            document.getElementById('checkoutForm').reset();
+        });
+
+        // Shipping modal controls
+        const shippingModal = document.getElementById('shippingModal');
+        const shippingBtn = document.getElementById('shippingBtn');
+        const closeShipping = document.getElementById('closeShipping');
+
+        shippingBtn.addEventListener('click', () => {
+            if (!currentUser) {
+                alert('Please login first to view your orders!');
+                loginModal.classList.add('active');
+                return;
+            }
+            renderShippingOrders();
+            shippingModal.classList.add('active');
+        });
+
+        closeShipping.addEventListener('click', () => {
+            shippingModal.classList.remove('active');
+        });
+
+        // Render shipping orders
+        function renderShippingOrders() {
+            const orderHistoryContent = document.getElementById('orderHistoryContent');
+
+            if (!currentUser) {
+                orderHistoryContent.innerHTML = '<p style="text-align: center; color: var(--neutral-gray);">Please login to view your orders</p>';
+                return;
+            }
+
+            const orders = JSON.parse(localStorage.getItem('celothecham_orders') || '[]').filter(order => order.user === currentUser.email);
+
+            if (orders.length === 0) {
+                orderHistoryContent.innerHTML = '<p style="text-align: center; color: var(--neutral-gray);">No orders yet</p>';
+                return;
+            }
+
+            orderHistoryContent.innerHTML = orders.map(order => `
+                <div class="order-card">
+                    <div class="order-header">
+                        <div class="order-id">Order #${order.id}</div>
+                        <div class="order-status ${order.status}">${order.status.charAt(0).toUpperCase() + order.status.slice(1)}</div>
+                    </div>
+                    <div class="order-details">
+                        ${order.items.map(item => `
+                            <div class="order-item">
+                                <img src="${item.image}" alt="${item.name}" class="order-item-img">
+                                <div class="order-item-info">
+                                    <div class="order-item-name">${item.name}</div>
+                                    <div class="order-item-size">Size: ${item.size}</div>
+                                    <div class="order-item-price">Rp ${item.price.toLocaleString()} x ${item.quantity}</div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="order-summary">
+                        <span>Total: Rp ${order.total.toLocaleString()}</span>
+                        <span>${new Date(order.date).toLocaleDateString('id-ID')}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Initialize
+        loadUser();
+        renderProfile();
+        updateCartCount();
+    </script>
+</body>
+</html>
